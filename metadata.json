@@ -1,0 +1,6 @@
+{
+  "name": "10Siblings Ltd - Pure Water & Cold Room",
+  "description": "10Siblings Ltd is a premier Nigerian pure water factory and drink cold room business supplying sachet water, bottled water, and ice-cold party drinks for events, picnics, and wholesale distributors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

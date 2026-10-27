@@ -1,0 +1,1881 @@
+<!--
+================================================================================
+10SIBLINGS LTD - PURE WATER, BOTTLED WATER & ICED DRINKS DISTRIBUTION
+================================================================================
+BEFORE GOING LIVE, EDIT THE FOLLOWING IN THIS FILE:
+
+1. BUSINESS CONFIGURATION (in the <script> block near the bottom of this file):
+   - Edit `const BUSINESS = { ... }`:
+     * name: "10siblings ltd"
+     * whatsapp: WhatsApp phone number in international format without '+' or spaces (e.g. "2348000000000")
+     * phone: Direct phone number for calls (e.g. "+234 800 000 0000")
+     * address: Depot & Cold Room address (e.g. "Plot 10, Industrial Estate, Lagos, Nigeria")
+     * hours: Operating hours (e.g. "Mon - Sat: 7:00 AM - 7:00 PM | Sun: 10:00 AM - 5:00 PM")
+
+2. BRAND LOGO & ASSETS:
+   - Official brand logo is loaded from `/assets/aistudio/10siblings_logo___27_Oct_2026__12.22_am__1__13c044e6.png`
+   - High-res commercial product assets loaded from `/src/assets/images/`
+
+3. DIRECT ORDER ACTION CARDS:
+   - Each action card now features an interactive detail configurator (Water type, quantities, event dates, locations, and names)
+   - Formats a comprehensive, ready-to-dispatch order message directly into WhatsApp!
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10siblings ltd | Pure Water, Bottled Water & Iced Drinks Cold Room Distribution</title>
+  <meta name="description" content="10siblings ltd sells and distributes pure sachet water (wholesale & retail), bottled water, and deeply chilled drinks for parties, picnics, and get-togethers." />
+  <meta property="og:title" content="10siblings ltd | Pure Water & Iced Drinks Distribution" />
+  <meta property="og:description" content="Order pure sachet water, bottled water, and ice-cold party drinks directly from our cold room facility." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    /* CSS Reset & Variables */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    :root {
+      /* Refined Brand Color Architecture */
+      --brand-blue: #0935d2;
+      --brand-blue-hover: #00259e;
+      --brand-blue-dark: #001966;
+      --brand-blue-soft: #edf3ff;
+      --brand-blue-glow: rgba(9, 53, 210, 0.18);
+
+      --brand-orange: #ff4815;
+      --brand-orange-hover: #e03b0c;
+      --brand-orange-soft: #fff1eb;
+      --brand-orange-glow: rgba(255, 72, 21, 0.2);
+
+      --wa-emerald: #10b981;
+      --wa-emerald-dark: #059669;
+
+      --text-dark: #091328;
+      --text-body: #334155;
+      --text-muted: #64748b;
+
+      --bg-white: #ffffff;
+      --bg-slate: #f8fafc;
+      --bg-card: #ffffff;
+
+      --border-subtle: #e2e8f0;
+      --border-blue: #bfdbfe;
+      --border-focus: #0935d2;
+
+      --shadow-sm: 0 2px 6px rgba(9, 53, 210, 0.04);
+      --shadow-card: 0 10px 30px -4px rgba(9, 30, 80, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 16px 36px -4px rgba(9, 53, 210, 0.15), 0 4px 10px rgba(0, 0, 0, 0.03);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--text-body);
+      background-color: #fbfcfe;
+      padding-top: 72px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Headings & Text */
+    h1, h2, h3, h4 {
+      color: var(--text-dark);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      letter-spacing: -0.025em;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.015em;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.35rem;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    .section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-slate {
+      background-color: var(--bg-slate);
+    }
+
+    .section-tint {
+      background: linear-gradient(180deg, var(--brand-blue-soft) 0%, #ffffff 100%);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 2.25rem auto;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--brand-orange);
+      background: var(--brand-orange-soft);
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 0.6rem;
+      border: 1px solid #fed7aa;
+    }
+
+    /* ============================================================ */
+    /* BESPOKE, LUXURY BUTTON STYLING (NO UGLY NEON GREEN BLOCKS)    */
+    /* ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 50px;
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Primary Elegant Royal Blue */
+    .btn-brand-primary {
+      background: linear-gradient(135deg, #0935d2 0%, #002294 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px var(--brand-blue-glow);
+    }
+
+    .btn-brand-primary:hover {
+      background: linear-gradient(135deg, #0d3ef7 0%, #0935d2 100%);
+      box-shadow: 0 6px 20px rgba(9, 53, 210, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Energetic Sunset Orange */
+    .btn-brand-orange {
+      background: linear-gradient(135deg, #ff4815 0%, #db3305 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px var(--brand-orange-glow);
+    }
+
+    .btn-brand-orange:hover {
+      background: linear-gradient(135deg, #ff5c2d 0%, #ff4815 100%);
+      box-shadow: 0 6px 20px rgba(255, 72, 21, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Sleek Dark Navy */
+    .btn-brand-dark {
+      background: #091328;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(9, 19, 40, 0.2);
+    }
+
+    .btn-brand-dark:hover {
+      background: #112044;
+      transform: translateY(-1px);
+    }
+
+    /* Refined White Outline */
+    .btn-white-outline {
+      background: #ffffff;
+      color: var(--brand-blue);
+      border: 1.5px solid var(--border-blue);
+      box-shadow: 0 2px 8px rgba(9, 53, 210, 0.05);
+    }
+
+    .btn-white-outline:hover {
+      background: var(--brand-blue-soft);
+      border-color: var(--brand-blue);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* Refined, tastefull WhatsApp micro-indicator */
+    .wa-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .wa-badge-pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #34d399;
+      box-shadow: 0 0 6px #34d399;
+    }
+
+    /* 1. STICKY TOP BAR */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--border-subtle);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 12px rgba(9, 53, 210, 0.04);
+    }
+
+    .top-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .brand-logo-anchor {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .call-chip {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      background: var(--brand-blue-soft);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-blue);
+      transition: all 0.2s ease;
+    }
+
+    .call-chip:hover {
+      background: #dbeafe;
+    }
+
+    .top-bar-cta {
+      min-height: 42px;
+      padding: 0.5rem 1.15rem;
+      font-size: 0.875rem;
+      border-radius: 8px;
+    }
+
+    /* 2. HERO SECTION */
+    .hero-banner {
+      position: relative;
+      background: linear-gradient(135deg, #0935d2 0%, #002aa8 55%, #001866 100%);
+      color: #ffffff;
+      padding: 3.25rem 0 5.25rem 0;
+      overflow: hidden;
+    }
+
+    .hero-banner h1, .hero-banner p {
+      color: #ffffff;
+    }
+
+    .hero-wave-bottom {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 52px;
+      z-index: 2;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      padding: 0.35rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.825rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      margin-bottom: 1.15rem;
+      color: #ffffff;
+    }
+
+    .hero-banner p.lead {
+      font-size: 1.08rem;
+      color: #dbeafe;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+      max-width: 600px;
+    }
+
+    .hero-cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .hero-sub-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .hero-sub-buttons .btn {
+      flex: 1 1 calc(50% - 0.35rem);
+      font-size: 0.85rem;
+      min-height: 46px;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(0, 15, 50, 0.4);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: #091328;
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-floating-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(9, 19, 40, 0.92);
+      backdrop-filter: blur(10px);
+      color: #ffffff;
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Trust Bar */
+    .trust-bar-wrap {
+      margin-top: -2rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    .trust-bar {
+      background: #ffffff;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      text-align: center;
+    }
+
+    .trust-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+    }
+
+    /* 3. EXPERIENCE / SPOTLIGHT */
+    .about-spotlight {
+      background: #ffffff;
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .circular-splash-box {
+      position: relative;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    .circular-img-holder {
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 6px solid var(--brand-blue-soft);
+      box-shadow: 0 12px 30px rgba(9, 53, 210, 0.16);
+      position: relative;
+    }
+
+    .circular-img-holder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .circle-stat-badge {
+      position: absolute;
+      background: linear-gradient(135deg, var(--brand-orange) 0%, #db3305 100%);
+      color: #ffffff;
+      border-radius: 50%;
+      width: 95px;
+      height: 95px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(255, 72, 21, 0.35);
+      border: 3px solid #ffffff;
+    }
+
+    .circle-stat-badge.top-left {
+      top: 5px;
+      left: 5px;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f80 100%);
+    }
+
+    .circle-stat-badge.bottom-right {
+      bottom: 5px;
+      right: 5px;
+    }
+
+    .circle-stat-num {
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .circle-stat-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .about-content ul {
+      list-style: none;
+      margin: 1.25rem 0 1.5rem 0;
+    }
+
+    .about-content ul li {
+      position: relative;
+      padding-left: 1.6rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.925rem;
+      color: var(--text-body);
+    }
+
+    .about-content ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: var(--brand-orange);
+      font-weight: bold;
+    }
+
+    /* ============================================================ */
+    /* 4. INTERACTIVE ACTION CARDS (DIRECT DETAILS CAPTURE)          */
+    /* ============================================================ */
+    .action-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .order-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .order-card:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-blue);
+    }
+
+    .order-card.featured-card {
+      border: 2px solid var(--brand-orange);
+    }
+
+    .card-top-media {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background-color: var(--brand-blue-soft);
+    }
+
+    .card-top-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .order-card:hover .card-top-media img {
+      transform: scale(1.05);
+    }
+
+    .card-category-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    }
+
+    .card-content-area {
+      padding: 1.5rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-title-group h3 {
+      font-size: 1.3rem;
+      color: var(--brand-blue);
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title-group p.desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Embedded Detail Configurator Form Inside Each Card */
+    .card-config-box {
+      background: var(--bg-slate);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1rem;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .config-label-heading {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dark);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-input-row {
+      margin-bottom: 0.75rem;
+    }
+
+    .card-input-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-input-row label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .card-select, .card-text-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.875rem;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-dark);
+      background-color: #ffffff;
+      font-family: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card-select:focus, .card-text-input:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px var(--brand-blue-glow);
+    }
+
+    .card-action-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card-guarantee-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* 5. WHY CHOOSE US */
+    .benefit-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .benefit-box {
+      background: #ffffff;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem 1.15rem;
+      display: flex;
+      gap: 0.95rem;
+      align-items: flex-start;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .benefit-icon {
+      font-size: 1.85rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .benefit-box h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+      color: var(--brand-blue);
+    }
+
+    .benefit-box p {
+      font-size: 0.875rem;
+      margin-bottom: 0;
+      line-height: 1.45;
+    }
+
+    /* 6. PRICING TEASER */
+    .pricing-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.35rem;
+    }
+
+    .pricing-card {
+      background: #ffffff;
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.65rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--brand-orange);
+      box-shadow: 0 10px 30px var(--brand-orange-glow);
+    }
+
+    .pricing-header-pill {
+      display: inline-block;
+      margin: 0 auto 0.5rem auto;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.25rem 0.85rem;
+      border-radius: 999px;
+      background-color: var(--brand-blue-soft);
+      color: var(--brand-blue);
+    }
+
+    .pricing-card .price-tag {
+      font-size: 2.15rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin: 0.35rem 0 0.1rem 0;
+    }
+
+    .pricing-card .price-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 1.35rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.95rem;
+    }
+
+    .pricing-card ul li {
+      position: relative;
+      padding-left: 1.35rem;
+      margin-bottom: 0.45rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .pricing-card ul li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--brand-blue);
+      font-weight: bold;
+    }
+
+    /* 7. CUSTOM ORDER / BOOKING FORM */
+    .form-card {
+      background: #ffffff;
+      border: 2px solid var(--border-blue);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.35rem;
+      box-shadow: var(--shadow-card);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.95rem;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-dark);
+      background-color: #ffffff;
+      font-family: inherit;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px var(--brand-blue-glow);
+    }
+
+    .form-help {
+      display: block;
+      text-align: center;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    /* 8. TESTIMONIALS */
+    .testimonial-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .testimonial-box {
+      background: #ffffff;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .test-stars {
+      color: #f59e0b;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+
+    .test-quote {
+      font-style: italic;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 0.85rem;
+    }
+
+    .test-name {
+      font-weight: 800;
+      color: var(--brand-blue);
+      font-size: 0.875rem;
+    }
+
+    .test-loc {
+      font-size: 0.775rem;
+      color: var(--text-muted);
+    }
+
+    /* 9. FAQ ACCORDION */
+    .faq-stack {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    details.faq-entry {
+      background: #ffffff;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details.faq-entry[open] {
+      border-color: var(--brand-blue);
+      box-shadow: 0 4px 14px var(--brand-blue-glow);
+    }
+
+    summary.faq-toggle {
+      padding: 1.1rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--brand-blue);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      user-select: none;
+    }
+
+    summary.faq-toggle::-webkit-details-marker {
+      display: none;
+    }
+
+    summary.faq-toggle::after {
+      content: "+";
+      font-size: 1.45rem;
+      color: var(--brand-orange);
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    details.faq-entry[open] summary.faq-toggle::after {
+      content: "−";
+    }
+
+    .faq-body {
+      padding: 0 1.25rem 1.15rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* 10. FINAL CTA */
+    .final-cta-section {
+      background: linear-gradient(135deg, var(--brand-blue-soft) 0%, #ffffff 100%);
+      text-align: center;
+      padding: 3.75rem 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .final-cta-section h2 {
+      font-size: 1.95rem;
+      color: var(--brand-blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .final-cta-section p {
+      max-width: 560px;
+      margin: 0 auto 1.75rem auto;
+      font-size: 1.05rem;
+    }
+
+    .call-hotline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 1.35rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      text-decoration: underline;
+    }
+
+    /* 11. FOOTER */
+    .site-footer {
+      background: #091328;
+      color: #94a3b8;
+      padding: 2.75rem 0;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    .footer-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-align: center;
+      align-items: center;
+    }
+
+    .footer-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .footer-nav a {
+      color: #38bdf8;
+      text-decoration: underline;
+    }
+
+    /* Responsive scaling */
+    @media (min-width: 640px) {
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.95rem; }
+
+      .trust-bar {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .benefit-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonial-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .call-chip {
+        display: inline-flex;
+      }
+    }
+
+    @media (min-width: 820px) {
+      .hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+
+      .about-grid {
+        grid-template-columns: 0.85fr 1.15fr;
+      }
+
+      .action-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pricing-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .benefit-grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .footer-flex {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        align-items: center;
+      }
+
+      .footer-nav {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. STICKY TOP BAR -->
+  <header class="top-bar">
+    <div class="container top-bar-inner">
+      <a href="#home" class="brand-logo-anchor" aria-label="10siblings ltd Home">
+        <img src="/assets/aistudio/10siblings_logo___27_Oct_2026__12.22_am__1__13c044e6.png"
+             onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='public/assets/aistudio/10siblings_logo___27_Oct_2026__12.22_am__1__13c044e6.png';}"
+             alt="10siblings ltd logo"
+             class="brand-logo-img">
+      </a>
+
+      <div class="top-actions">
+        <a href="tel:+2348000000000" class="call-chip biz-tel-link">
+          <span>📞</span>
+          <span class="biz-phone">+234 800 000 0000</span>
+        </a>
+
+        <a href="#audiences"
+           class="btn btn-brand-primary top-bar-cta"
+           aria-label="Order pure water or party drinks">
+          <span>Order Now</span>
+          <span class="wa-badge-pill">WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. HERO SECTION -->
+    <section class="hero-banner" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-pill">
+            <span>💧 Pure Water, Bottled Water & Iced Drinks Distribution</span>
+          </div>
+
+          <h1>Pure Water, Bottled Water & Iced Drinks, Delivered Chilled to You</h1>
+          <p class="lead">
+            Welcome to <strong>10siblings ltd</strong>. We sell and distribute premium sachet pure water (wholesale & retail), bottled water, and sub-zero iced drinks for homes, shops, parties, picnics, and get-togethers.
+          </p>
+
+          <div class="hero-cta-stack">
+            <a href="#audiences"
+               class="btn btn-brand-orange"
+               style="font-size: 1.05rem; min-height: 54px;">
+              <span>Select Your Order Below</span>
+              <span class="wa-badge-pill">Fast Dispatch</span>
+            </a>
+
+            <div class="hero-sub-buttons">
+              <a href="#parties" class="btn btn-white-outline">Party & Picnic Drinks</a>
+              <a href="#wholesale" class="btn btn-white-outline">Wholesale Store Supply</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Display -->
+        <div class="hero-image-wrap">
+          <img src="/src/assets/images/hero_water_bottles_1793012192133.jpg"
+               alt="10siblings ltd pure drinking water and iced drinks cold room distribution"
+               referrerpolicy="no-referrer">
+          <div class="hero-floating-badge">
+            <span>❄️</span>
+            <span>Commercial Cold Room Storage</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave Bottom SVG -->
+      <svg class="hero-wave-bottom" viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+        <path d="M0,32L60,42.7C120,53,240,75,360,69.3C480,64,600,32,720,26.7C840,21,960,43,1080,48C1200,53,1320,43,1380,37.3L1440,32L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z" fill="#ffffff"></path>
+      </svg>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="container trust-bar-wrap">
+      <div class="trust-bar">
+        <div class="trust-cell">
+          <span>✅</span>
+          <span>Certified Pure Water</span>
+        </div>
+        <div class="trust-cell">
+          <span>🚚</span>
+          <span>Fast Same-Day Delivery</span>
+        </div>
+        <div class="trust-cell">
+          <span>❄️</span>
+          <span>Frosty Party Cold Room</span>
+        </div>
+        <div class="trust-cell">
+          <span>📦</span>
+          <span>Wholesale & Retail Sales</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. ABOUT & DISTRIBUTION SPOTLIGHT -->
+    <section class="about-spotlight">
+      <div class="container about-grid">
+        <div class="circular-splash-box">
+          <div class="circular-img-holder">
+            <img src="/src/assets/images/water_carboys_dispenser_1793012194765.jpg"
+                 alt="10siblings ltd pure water and bottled water distribution supply"
+                 referrerpolicy="no-referrer">
+          </div>
+          <div class="circle-stat-badge top-left">
+            <span class="circle-stat-num">100%</span>
+            <span class="circle-stat-label">Pure Water</span>
+          </div>
+          <div class="circle-stat-badge bottom-right">
+            <span class="circle-stat-num">Cold</span>
+            <span class="circle-stat-label">Drinks</span>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <span class="section-tag">Direct Sales & Distribution Specialist</span>
+          <h2>Your Reliable Supply & Cold Room Partner</h2>
+          <p>
+            At <strong>10siblings ltd</strong>, we specialize in the sales and distribution of certified pure water, table bottled water, and deeply iced drinks. We don't just supply drinks; we store them in our commercial cold room so they reach your home, retail store, picnic, or party ice-cold and ready to drink.
+          </p>
+
+          <ul>
+            <li><strong>Sachet Pure Water (Wholesale & Retail):</strong> Certified, clean, and refreshing sachet water bags supplied in bulk to stores or delivered to homes.</li>
+            <li><strong>Bottled Water (Wholesale & Retail):</strong> 50cl, 75cl, 1.5L table water and 19-Liter dispenser carboys.</li>
+            <li><strong>Iced Drinks & Water for Events:</strong> Chilled crates of Coca-Cola, Fanta, Sprite, Malts, and bottled water for parties, picnics, and get-togethers.</li>
+          </ul>
+
+          <a href="#audiences" class="btn btn-brand-primary">
+            <span>Configure Your Order Below</span>
+            <span class="wa-badge-pill">WhatsApp Dispatch</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 4. THREE-AUDIENCE ACTION CARDS WITH DIRECT DETAIL CAPTURE     -->
+    <!-- ============================================================== -->
+    <section class="section section-slate" id="audiences">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Instant Order & Booking</span>
+          <h2>Select Your Items & Configure Below</h2>
+          <p>Fill in a few quick details on any card so our dispatch team receives your exact requirements directly on WhatsApp.</p>
+        </div>
+
+        <div class="action-cards-grid">
+          <!-- CARD 1: Sachet & Bottled Water (Retail & Wholesale) -->
+          <div class="order-card" id="sachet-water">
+            <div class="card-top-media">
+              <span class="card-category-badge" style="color: var(--brand-blue);">Pure Water</span>
+              <img src="/src/assets/images/sachet_and_bottled_1793012193934.jpg"
+                   alt="10siblings ltd pure sachet water and bottled table water"
+                   referrerpolicy="no-referrer">
+            </div>
+            <div class="card-content-area">
+              <div class="card-title-group">
+                <h3>Pure Sachet & Bottled Water</h3>
+                <p class="desc">Clean, odorless, laboratory-tested drinking water for homes, stores, and corporate offices.</p>
+              </div>
+
+              <!-- Interactive Configurator -->
+              <div class="card-config-box">
+                <div class="config-label-heading">
+                  <span>📝 Order Specifications:</span>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c1-item">Water Package</label>
+                  <select id="c1-item" class="card-select">
+                    <option value="Sachet Pure Water Bags (20 sachets/bag)">Sachet Pure Water Bags (20 sachets/bag)</option>
+                    <option value="Bottled Table Water (75cl Pack of 12)">Bottled Table Water (75cl Pack of 12)</option>
+                    <option value="Bottled Table Water (50cl Pack of 12)">Bottled Table Water (50cl Pack of 12)</option>
+                    <option value="19-Liter Dispenser Carboy Bottles">19-Liter Dispenser Carboy Bottles</option>
+                    <option value="Mixed Sachet & Bottled Water Combo">Mixed Sachet & Bottled Water Combo</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c1-qty">Quantity Needed</label>
+                  <select id="c1-qty" class="card-select">
+                    <option value="5 Bags / Packs (Home starter)">5 Bags / Packs (Home starter)</option>
+                    <option value="10 Bags / Packs">10 Bags / Packs</option>
+                    <option value="25 Bags / Packs">25 Bags / Packs</option>
+                    <option value="50 Bags / Packs">50 Bags / Packs</option>
+                    <option value="100+ Bags (Wholesale load)">100+ Bags (Wholesale load)</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c1-area">Delivery Area / Street</label>
+                  <input type="text" id="c1-area" class="card-text-input" placeholder="e.g. Ikeja, Lekki, Surulere" />
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c1-name">Your Name or Contact</label>
+                  <input type="text" id="c1-name" class="card-text-input" placeholder="e.g. Mrs. Funke / Adebayo" />
+                </div>
+              </div>
+
+              <div class="card-action-bar">
+                <button type="button" class="btn btn-brand-primary btn-block" onclick="sendCard1Order()">
+                  <span>Send Order to WhatsApp</span>
+                  <span class="wa-badge-pill">WhatsApp</span>
+                </button>
+                <span class="card-guarantee-note">⚡ Dispatched same-day within 2 to 4 hours</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: Parties, Picnics & Get-Togethers -->
+          <div class="order-card featured-card" id="parties">
+            <div class="card-top-media">
+              <span class="card-category-badge" style="color: var(--brand-orange);">Chilled Cold Room</span>
+              <img src="/src/assets/images/iced_party_drinks_1793012192835.jpg"
+                   alt="Ice cold drinks, Coca-Cola, Fanta, Sprite and bottled water for events"
+                   referrerpolicy="no-referrer">
+            </div>
+            <div class="card-content-area">
+              <div class="card-title-group">
+                <h3>Iced Drinks for Parties & Picnics</h3>
+                <p class="desc">Sub-zero crates of drinks & bottled water ready to serve guests right away without melting ice blocks.</p>
+              </div>
+
+              <!-- Interactive Configurator -->
+              <div class="card-config-box">
+                <div class="config-label-heading">
+                  <span>🎉 Event Details:</span>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c2-event">Event Type</label>
+                  <select id="c2-event" class="card-select">
+                    <option value="Outdoor Picnic / Get-Together">Outdoor Picnic / Get-Together</option>
+                    <option value="Birthday Party / Celebration">Birthday Party / Celebration</option>
+                    <option value="Wedding / Engagement Reception">Wedding / Engagement Reception</option>
+                    <option value="Family / Reunion Get-Together">Family / Reunion Get-Together</option>
+                    <option value="Church / Club / Corporate Event">Church / Club / Corporate Event</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c2-drinks">Drinks Selection</label>
+                  <select id="c2-drinks" class="card-select">
+                    <option value="Mixed Soft Drinks Crates (Coke, Fanta, Sprite)">Mixed Soft Drinks (Coke, Fanta, Sprite)</option>
+                    <option value="Malt Drinks & Chilled Bottled Water">Malt Drinks & Chilled Bottled Water</option>
+                    <option value="Sodas, Malts & Cold Water Crates Combo">Sodas, Malts & Cold Water Combo</option>
+                    <option value="Chilled Bottled Water Crates Only">Chilled Bottled Water Crates Only</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c2-crates">Estimated Quantity</label>
+                  <select id="c2-crates" class="card-select">
+                    <option value="3 to 5 Crates (Small get-together)">3 to 5 Crates (Small get-together)</option>
+                    <option value="10 Crates (Party / Picnic)">10 Crates (Party / Picnic)</option>
+                    <option value="20 to 30 Crates (Medium celebration)">20 to 30 Crates (Medium celebration)</option>
+                    <option value="50+ Crates (Large event / wedding)">50+ Crates (Large event / wedding)</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c2-date-loc">Event Date & Venue Area</label>
+                  <input type="text" id="c2-date-loc" class="card-text-input" placeholder="e.g. This Saturday in Victoria Island" />
+                </div>
+              </div>
+
+              <div class="card-action-bar">
+                <button type="button" class="btn btn-brand-orange btn-block" onclick="sendCard2Order()">
+                  <span>Book Chilled Drinks</span>
+                  <span class="wa-badge-pill">WhatsApp</span>
+                </button>
+                <span class="card-guarantee-note">❄️ Arrives frosty cold straight out of cold room</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: Wholesale Store & Bulk Depot Supply -->
+          <div class="order-card" id="wholesale">
+            <div class="card-top-media">
+              <span class="card-category-badge" style="color: #059669;">Wholesale Depot</span>
+              <img src="/src/assets/images/water_carboys_dispenser_1793012194765.jpg"
+                   alt="Bulk wholesale supply and dispenser water bottles from 10siblings ltd"
+                   referrerpolicy="no-referrer">
+            </div>
+            <div class="card-content-area">
+              <div class="card-title-group">
+                <h3>Wholesale Supply & Bulk Retail</h3>
+                <p class="desc">Reliable bulk truckload supply for supermarkets, retail kiosks, canteens, and depot stockists.</p>
+              </div>
+
+              <!-- Interactive Configurator -->
+              <div class="card-config-box">
+                <div class="config-label-heading">
+                  <span>🏢 Business Requirements:</span>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c3-type">Business / Store Type</label>
+                  <select id="c3-type" class="card-select">
+                    <option value="Retail Supermarket / Provision Store">Retail Supermarket / Provision Store</option>
+                    <option value="Water & Drinks Depot Reseller">Water & Drinks Depot Reseller</option>
+                    <option value="Restaurant / Canteen / Bar">Restaurant / Canteen / Bar</option>
+                    <option value="Corporate Office / School">Corporate Office / School</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c3-products">Supply Required</label>
+                  <select id="c3-products" class="card-select">
+                    <option value="Bulk Sachet Pure Water Bags">Bulk Sachet Pure Water Bags</option>
+                    <option value="Bottled Water Pallets (50cl / 75cl)">Bottled Water Pallets (50cl / 75cl)</option>
+                    <option value="19-Liter Dispenser Refills">19-Liter Dispenser Refills</option>
+                    <option value="Bulk Drinks Crates & Water Combo">Bulk Drinks Crates & Water Combo</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c3-volume">Weekly Supply Volume</label>
+                  <select id="c3-volume" class="card-select">
+                    <option value="100 - 300 Bags of Pure Water">100 - 300 Bags of Pure Water</option>
+                    <option value="500 - 1,000 Bags (Truckload drop)">500 - 1,000 Bags (Truckload drop)</option>
+                    <option value="20 - 50 Crates of Drinks">20 - 50 Crates of Drinks</option>
+                    <option value="Scheduled Weekly Contract">Scheduled Weekly Contract</option>
+                  </select>
+                </div>
+
+                <div class="card-input-row">
+                  <label for="c3-loc">Store Location & Contact Name</label>
+                  <input type="text" id="c3-loc" class="card-text-input" placeholder="e.g. Alaba Market, Alhaji Ibrahim" />
+                </div>
+              </div>
+
+              <div class="card-action-bar">
+                <button type="button" class="btn btn-brand-dark btn-block" onclick="sendCard3Order()">
+                  <span>Request Wholesale Terms</span>
+                  <span class="wa-badge-pill">WhatsApp</span>
+                </button>
+                <span class="card-guarantee-note">🤝 Protected wholesale rates & priority queue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. WHY CHOOSE 10SIBLINGS LTD -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Why 10siblings ltd</span>
+          <h2>Fast Delivery & Reliable Cold Room Service</h2>
+          <p>We pride ourselves on dependable supply, icy cold temperatures, and prompt customer care.</p>
+        </div>
+
+        <div class="benefit-grid-4">
+          <div class="benefit-box">
+            <div class="benefit-icon">🚚</div>
+            <div>
+              <h3>Same-Day Delivery</h3>
+              <p>Fast dispatch straight to your location within hours of ordering.</p>
+            </div>
+          </div>
+
+          <div class="benefit-box">
+            <div class="benefit-icon">🏷️</div>
+            <div>
+              <h3>Wholesale & Retail Rates</h3>
+              <p>Direct distributor pricing that saves you money on every order.</p>
+            </div>
+          </div>
+
+          <div class="benefit-box">
+            <div class="benefit-icon">❄️</div>
+            <div>
+              <h3>Icy Cold & Ready</h3>
+              <p>Deep cold room storage ensures drinks arrive frosty for your guests.</p>
+            </div>
+          </div>
+
+          <div class="benefit-box">
+            <div class="benefit-icon">🛡️</div>
+            <div>
+              <h3>Trusted Supply Network</h3>
+              <p>Certified pure water trusted by families, caterers, and retail shops daily.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.25rem;">
+          <a href="#audiences" class="btn btn-brand-primary">
+            <span>Configure & Order on WhatsApp</span>
+            <span class="wa-badge-pill">Instant Chat</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PRICING TEASER -->
+    <section class="section section-tint" id="pricing">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Clear & Honest Pricing</span>
+          <h2>Popular Supply Packages</h2>
+          <p>Order directly from our depot and enjoy bulk savings for homes, shops, and parties.</p>
+        </div>
+
+        <div class="pricing-grid-3">
+          <!-- Package 1: Retail Home Pack -->
+          <div class="pricing-card">
+            <div>
+              <span class="pricing-header-pill">Homes & Families</span>
+              <h3>Home Pure Water Pack</h3>
+              <div class="price-tag">₦1,200</div>
+              <div class="price-sub">per 5 bags (20 sachets/bag)</div>
+              <ul>
+                <li>100 sachets total of pure drinking water</li>
+                <li>Zero odor, clean, fresh taste</li>
+                <li>Brought directly into your compound</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-white-outline btn-block" onclick="quickPackageOrder('Home Pure Water Pack (5 bags / 100 sachets - ₦1,200)')">
+              <span>Order Home Pack</span>
+              <span class="wa-badge-pill">WhatsApp</span>
+            </button>
+          </div>
+
+          <!-- Package 2: Party & Picnic Crate -->
+          <div class="pricing-card featured">
+            <div>
+              <span class="pricing-header-pill" style="background: var(--brand-orange-soft); color: var(--brand-orange);">Parties & Picnics</span>
+              <h3>Party Chilled Crate</h3>
+              <div class="price-tag">₦4,500</div>
+              <div class="price-sub">per crate (24 ice-cold bottles/cans)</div>
+              <ul>
+                <li>Choice of Coke, Fanta, Sprite, Malt & Bottled Water</li>
+                <li>Taken fresh from sub-zero cold room storage</li>
+                <li>Delivered ready to serve guests right away</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-brand-orange btn-block" onclick="quickPackageOrder('Party Chilled Crate (24 ice-cold cans/bottles - ₦4,500)')">
+              <span>Order Party Crates</span>
+              <span class="wa-badge-pill">WhatsApp</span>
+            </button>
+          </div>
+
+          <!-- Package 3: Wholesale Retail Bulk -->
+          <div class="pricing-card">
+            <div>
+              <span class="pricing-header-pill" style="background: #ecfdf5; color: #059669;">Wholesale Retailers</span>
+              <h3>Wholesale Store Bulk</h3>
+              <div class="price-tag">₦180</div>
+              <div class="price-sub">per bag (Min 100 bags wholesale load)</div>
+              <ul>
+                <li>Great retail resale profit margin for shops</li>
+                <li>Reliable truck delivery or depot pickup</li>
+                <li>Pure sachet water and bottled water packs</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-brand-dark btn-block" onclick="quickPackageOrder('Wholesale Store Bulk (Min 100 bags factory load - ₦180/bag)')">
+              <span>Get Wholesale Pricing</span>
+              <span class="wa-badge-pill">WhatsApp</span>
+            </button>
+          </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; font-style: italic;">
+          * Prices vary slightly by delivery distance and order volume — tap any package for instant quotation.
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. CUSTOM ORDER / BOOKING FORM -->
+    <section class="section section-slate" id="custom-request">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Custom Order Request</span>
+          <h2>Can't Find Your Exact Combination?</h2>
+          <p>Send your custom list of pure water, bottled water, and chilled drinks directly to our dispatch desk.</p>
+        </div>
+
+        <div class="form-card">
+          <form id="customOrderForm">
+            <div class="form-group">
+              <label for="form-name">Your Full Name *</label>
+              <input type="text" id="form-name" class="form-control" required placeholder="e.g. Adebayo Ogunlesi" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-phone">WhatsApp Phone Number *</label>
+              <input type="tel" id="form-phone" class="form-control" required placeholder="e.g. 08012345678" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-location">Delivery Area / Venue Location *</label>
+              <input type="text" id="form-location" class="form-control" required placeholder="e.g. Lekki Phase 1, Lagos" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-items">What products and quantities do you need? *</label>
+              <textarea id="form-items" class="form-control" rows="3" required placeholder="e.g. 15 crates of chilled drinks (Coke, Fanta, Malt), 10 packs of 75cl bottled water, and 20 bags of pure sachet water for our picnic this Saturday"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-brand-primary btn-block" style="min-height: 52px; font-size: 1.05rem;">
+              <span>Send Detailed Order to WhatsApp</span>
+              <span class="wa-badge-pill">Instant Response</span>
+            </button>
+            <span class="form-help">Our dispatch desk replies within minutes on WhatsApp.</span>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. TESTIMONIALS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Customer Reviews</span>
+          <h2>Trusted Across Homes, Shops & Events</h2>
+          <p>What our clients say about 10siblings ltd pure water delivery and cold room service.</p>
+        </div>
+
+        <div class="testimonial-grid-3">
+          <div class="testimonial-box">
+            <div class="test-stars">★★★★★</div>
+            <p class="test-quote">"10siblings ltd delivers pure sachet water to our residential estate every week without fail. The water is clean, refreshing, and reliably on time."</p>
+            <div>
+              <div class="test-name">Mrs. Funke A.</div>
+              <div class="test-loc">Ikeja, Lagos</div>
+            </div>
+          </div>
+
+          <div class="testimonial-box">
+            <div class="test-stars">★★★★★</div>
+            <p class="test-quote">"We ordered 40 crates of chilled drinks and bottled water for our family picnic. Everything arrived frosty cold directly out of their cold room. Saved us the stress of buying ice!"</p>
+            <div>
+              <div class="test-name">Chidi K.</div>
+              <div class="test-loc">Lekki Phase 1, Lagos</div>
+            </div>
+          </div>
+
+          <div class="testimonial-box">
+            <div class="test-stars">★★★★★</div>
+            <p class="test-quote">"I run a retail supermarket and buy wholesale pure sachet water and bottled water from 10siblings ltd. Fast delivery trucks and very honest pricing."</p>
+            <div>
+              <div class="test-name">Alhaji Ibrahim</div>
+              <div class="test-loc">Agege, Lagos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. FAQ ACCORDION -->
+    <section class="section section-slate" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Got Questions?</span>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about our water delivery, party orders, and payments.</p>
+        </div>
+
+        <div class="faq-stack">
+          <details class="faq-entry">
+            <summary class="faq-toggle">Where does 10siblings ltd deliver?</summary>
+            <div class="faq-body">
+              We deliver across our local coverage area and surrounding districts. For parties, picnics, events, and wholesale store deliveries, our dispatch trucks cover wider metropolitan zones. Message us your street address on WhatsApp to get immediate delivery scheduling.
+            </div>
+          </details>
+
+          <details class="faq-entry">
+            <summary class="faq-toggle">What is the minimum order quantity?</summary>
+            <div class="faq-body">
+              For home pure water delivery, the minimum order is 5 bags of sachet water or 2 dispenser jars. For parties, picnics, and get-togethers, minimum order is 3 crates of chilled drinks. Wholesale store supply starts from 100 bags or 20 crates.
+            </div>
+          </details>
+
+          <details class="faq-entry">
+            <summary class="faq-toggle">How do I pay for my order?</summary>
+            <div class="faq-body">
+              We accept bank transfer upon order confirmation and cash on delivery for verified regular customers. Your invoice is sent directly via WhatsApp before our truck sets out.
+            </div>
+          </details>
+
+          <details class="faq-entry">
+            <summary class="faq-toggle">Do you sell drinks chilled for parties and picnics?</summary>
+            <div class="faq-body">
+              Yes! We operate a high-capacity commercial cold room where crates of soft drinks, malts, sodas, and bottled water are chilled to sub-zero temperatures. They are delivered ready to serve your guests immediately without needing to buy bags of ice blocks.
+            </div>
+          </details>
+
+          <details class="faq-entry">
+            <summary class="faq-toggle">How fast will my pure water and chilled drinks arrive?</summary>
+            <div class="faq-body">
+              Home and retail shop orders placed before 1:00 PM are delivered same-day within 2 to 4 hours. For large weekend parties and picnics, we recommend booking 24 to 48 hours in advance to guarantee chilled stock reserved in our cold room.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. FINAL CTA -->
+    <section class="final-cta-section" id="contact">
+      <div class="container">
+        <h2>Ready for Fresh Pure Water or Iced Party Drinks?</h2>
+        <p>Send a quick WhatsApp message to get your order dispatched right away, or call our direct phone hotline.</p>
+
+        <a href="#audiences"
+           class="btn btn-brand-primary"
+           style="min-height: 54px; font-size: 1.1rem; padding: 0.9rem 2.5rem;">
+          <span>Choose Your Order Package</span>
+          <span class="wa-badge-pill">WhatsApp</span>
+        </a>
+
+        <div>
+          <a href="tel:+2348000000000" class="call-hotline biz-tel-link">
+            📞 Direct Hotline: <span class="biz-phone">+234 800 000 0000</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 11. FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-flex">
+      <div>
+        <div class="footer-logo-wrap" style="margin-bottom: 0.75rem;">
+          <img src="/assets/aistudio/10siblings_logo___27_Oct_2026__12.22_am__1__13c044e6.png"
+               onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='public/assets/aistudio/10siblings_logo___27_Oct_2026__12.22_am__1__13c044e6.png';}"
+               alt="10siblings ltd"
+               style="height: 48px; width: auto; background: #ffffff; border-radius: 8px; padding: 4px;">
+        </div>
+        <div class="biz-address">Plot 10, Industrial Estate, Lagos, Nigeria</div>
+        <div class="biz-hours">Mon - Sat: 7:00 AM - 7:00 PM | Sun: 10:00 AM - 5:00 PM</div>
+      </div>
+
+      <div class="footer-nav">
+        <a href="#audiences" class="footer-order-link">
+          Order Pure Water & Drinks
+        </a>
+        <a href="tel:+2348000000000" class="biz-tel-link">
+          Call <span class="biz-phone">+234 800 000 0000</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- VANILLA JS LOGIC WITH DIRECT DETAIL ENCODING                   -->
+  <!-- ============================================================== -->
+  <script>
+    // ============================================================
+    // EDIT BUSINESS CONFIGURATION HERE
+    // ============================================================
+    const BUSINESS = {
+      name: "10siblings ltd",
+      whatsapp: "2348000000000", // WhatsApp number without '+' or spaces
+      phone: "+234 800 000 0000",
+      address: "Plot 10, Industrial Estate, Lagos, Nigeria",
+      hours: "Mon - Sat: 7:00 AM - 7:00 PM | Sun: 10:00 AM - 5:00 PM"
+    };
+
+    /**
+     * Builds standard WhatsApp deep link with URL-encoded message
+     */
+    function waLink(message) {
+      return `https://wa.me/${BUSINESS.whatsapp}?text=${encodeURIComponent(message)}`;
+    }
+
+    /**
+     * Card 1: Pure Sachet & Bottled Water Configurator
+     */
+    function sendCard1Order() {
+      const item = document.getElementById("c1-item")?.value || "Sachet Pure Water";
+      const qty = document.getElementById("c1-qty")?.value || "5 Bags";
+      const area = document.getElementById("c1-area")?.value.trim() || "Not specified";
+      const name = document.getElementById("c1-name")?.value.trim() || "Customer";
+
+      const message =
+`Hi ${BUSINESS.name}, I would like to order Pure Water:
+- Product: ${item}
+- Quantity: ${qty}
+- Delivery Location: ${area}
+- Name/Contact: ${name}`;
+
+      window.open(waLink(message), "_blank", "noopener,noreferrer");
+    }
+
+    /**
+     * Card 2: Parties, Picnics & Event Drinks Configurator
+     */
+    function sendCard2Order() {
+      const eventType = document.getElementById("c2-event")?.value || "Picnic / Party";
+      const drinks = document.getElementById("c2-drinks")?.value || "Mixed Soft Drinks Crates";
+      const crates = document.getElementById("c2-crates")?.value || "5 Crates";
+      const dateLoc = document.getElementById("c2-date-loc")?.value.trim() || "Upcoming date";
+
+      const message =
+`Hi ${BUSINESS.name}, I want to book Chilled Party Drinks & Water:
+- Event Type: ${eventType}
+- Drink Selection: ${drinks}
+- Estimated Quantity: ${crates}
+- Date & Venue Area: ${dateLoc}`;
+
+      window.open(waLink(message), "_blank", "noopener,noreferrer");
+    }
+
+    /**
+     * Card 3: Wholesale & Bulk Depot Supply Configurator
+     */
+    function sendCard3Order() {
+      const businessType = document.getElementById("c3-type")?.value || "Retail Store";
+      const products = document.getElementById("c3-products")?.value || "Bulk Sachet Pure Water";
+      const volume = document.getElementById("c3-volume")?.value || "100 - 300 Bags";
+      const loc = document.getElementById("c3-loc")?.value.trim() || "Store Location";
+
+      const message =
+`Hi ${BUSINESS.name}, I would like Wholesale Supply terms:
+- Business Type: ${businessType}
+- Products Needed: ${products}
+- Weekly Volume: ${volume}
+- Store Location & Contact: ${loc}`;
+
+      window.open(waLink(message), "_blank", "noopener,noreferrer");
+    }
+
+    /**
+     * Quick Package Order Handler
+     */
+    function quickPackageOrder(packageName) {
+      const message = `Hi ${BUSINESS.name}, I would like to order this package:\n- Package: ${packageName}\nPlease let me know availability and delivery time.`;
+      window.open(waLink(message), "_blank", "noopener,noreferrer");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Populate text bindings
+      document.querySelectorAll(".biz-phone").forEach(el => el.textContent = BUSINESS.phone);
+      document.querySelectorAll(".biz-address").forEach(el => el.textContent = BUSINESS.address);
+      document.querySelectorAll(".biz-hours").forEach(el => el.textContent = BUSINESS.hours);
+
+      // 2. Wire telephone links
+      document.querySelectorAll(".biz-tel-link").forEach(el => {
+        el.setAttribute("href", `tel:${BUSINESS.phone.replace(/[^0-9+]/g, '')}`);
+      });
+
+      // 3. Custom order form listener
+      const customForm = document.getElementById("customOrderForm");
+      if (customForm) {
+        customForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("form-name")?.value.trim() || "";
+          const phone = document.getElementById("form-phone")?.value.trim() || "";
+          const loc = document.getElementById("form-location")?.value.trim() || "";
+          const items = document.getElementById("form-items")?.value.trim() || "";
+
+          const formatted =
+`Hi ${BUSINESS.name}, I have a custom order request:
+- Name: ${name}
+- Phone: ${phone}
+- Location: ${loc}
+- Items Needed: ${items}`;
+
+          window.open(waLink(formatted), "_blank", "noopener,noreferrer");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
